@@ -1,4 +1,4 @@
-# **Post & Comment Management System**
+# **Real Time Notification System base on online forums like reddit.**
 
 A Spring Boot application for managing posts and comments, with like/unlike functionality.
 
