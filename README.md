@@ -1,4 +1,4 @@
-# **Real Time Notification System base on online forums like reddit.**
+# **Real Time Notification System based on online forums like reddit.**
 
 A Spring Boot application for managing posts and comments, with like/unlike functionality.
 
@@ -27,3 +27,4 @@ Add these to `pom.xml`:
     </dependency>
 </dependencies>
 ```
+<img width="1788" alt="image" src="https://github.com/user-attachments/assets/1dc6ad9f-d7ba-4999-b15e-4ce5846cd5f3">
