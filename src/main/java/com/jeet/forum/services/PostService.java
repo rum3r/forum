@@ -1,15 +1,25 @@
 package com.jeet.forum.services;
 
+import com.jeet.forum.SocketEventType;
 import com.jeet.forum.entities.Post;
 import com.jeet.forum.repos.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class PostService {
+
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
+    @Value("${kafka.notification.topic}")
+    private String kafkaNotificationTopic;
 
     @Autowired
     private PostRepository postRepository;
@@ -65,12 +75,25 @@ public class PostService {
             Post post = optionalPost.get();
             if (post.getLikedByUsers().contains(userId)) {
                 post.getLikedByUsers().remove(userId);
+                postRepository.save(post);
+                kafkaTemplate.send(kafkaNotificationTopic, fetchEventInfo(SocketEventType.POST_UNLIKE.name(), postId, userId));
             } else {
                 post.getLikedByUsers().add(userId);
+                postRepository.save(post);
+                kafkaTemplate.send(kafkaNotificationTopic, fetchEventInfo(SocketEventType.POST_LIKE.name(), postId, userId));
             }
-            postRepository.save(post);
             return Optional.of(post);
         }
         return Optional.empty();
+    }
+
+
+    private Map<String, String> fetchEventInfo(String eventType, String postId, String userId) {
+        Map<String, String> event = new HashMap<>();
+        event.put("eventType", eventType);
+        event.put("postId", postId);
+        event.put("userId", userId);
+        event.put("timestamp", String.valueOf(System.currentTimeMillis()));
+        return event;
     }
 }
