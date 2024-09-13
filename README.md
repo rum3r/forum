@@ -28,3 +28,5 @@ Add these to `pom.xml`:
 </dependencies>
 ```
 <img width="1788" alt="image" src="https://github.com/user-attachments/assets/1dc6ad9f-d7ba-4999-b15e-4ce5846cd5f3">
+
+<img width="1800" alt="image" src="https://github.com/user-attachments/assets/2c3c157e-9667-4ef4-a6c8-e0c50c926e43">
